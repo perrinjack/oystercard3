@@ -4,30 +4,29 @@ TOP_UP_LIMIT = 90
 MINIMUM_FARE = 1
 DEFAULT_BALANCE = 0
 
-  attr_reader :balance
+  attr_reader :balance, :entry_station
 
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
-    @in_use = false
   end
 
   def top_up(value)
-    fail "Error, card has limit of #{TOP_UP_LIMIT}" if value + balance > TOP_UP_LIMIT
+    fail "Error, card has limit of #{TOP_UP_LIMIT}" if over_limit?(value)
     @balance += value
   end
 
-  def touch_in
-    raise "No money" if balance < MINIMUM_FARE
-    @in_use = true
+  def touch_in(entry_station)
+    raise "No money" if insufficient_funds?
+    @entry_station = entry_station
   end
 
   def touch_out
     deduct(MINIMUM_FARE)
-    @in_use = false
+    @entry_station = nil
   end
 
   def in_journey?
-    !!@in_use
+    !!@entry_station
   end
 
   private
@@ -36,4 +35,11 @@ DEFAULT_BALANCE = 0
     @balance -= fare
   end
 
+  def insufficient_funds?
+     balance < MINIMUM_FARE
+  end
+
+  def over_limit?(value)
+    value + balance > TOP_UP_LIMIT
+  end
 end
