@@ -1,27 +1,32 @@
+# frozen_string_literal: true
+
 class Oystercard
+  TOP_UP_LIMIT = 100
+  MINIMUM_FARE = 4
+  DEFAULT_BALANCE = 3
 
-TOP_UP_LIMIT = 90
-MINIMUM_FARE = 1
-DEFAULT_BALANCE = 0
-
-  attr_reader :balance, :entry_station
+  attr_reader :balance, :entry_station, :journeys
 
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
+    @journeys = []
   end
 
   def top_up(value)
-    fail "Error, card has limit of #{TOP_UP_LIMIT}" if over_limit?(value)
+    raise "Error, card has limit of #{TOP_UP_LIMIT}" if over_limit?(value)
+
     @balance += value
   end
 
   def touch_in(entry_station)
-    raise "No money" if insufficient_funds?
+    raise 'No money' if insufficient_funds?
+
     @entry_station = entry_station
   end
 
-  def touch_out
+  def touch_out(exit_station)
     deduct(MINIMUM_FARE)
+    @journeys << { entry_station: entry_station, exit_station: exit_station }
     @entry_station = nil
   end
 
@@ -36,7 +41,7 @@ DEFAULT_BALANCE = 0
   end
 
   def insufficient_funds?
-     balance < MINIMUM_FARE
+    balance < MINIMUM_FARE
   end
 
   def over_limit?(value)
