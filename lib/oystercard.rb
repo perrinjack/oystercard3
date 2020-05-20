@@ -2,11 +2,12 @@ class Oystercard
 
 TOP_UP_LIMIT = 90
 MINIMUM_FARE = 1
+DEFAULT_BALANCE = 0
 
   attr_reader :balance
 
-  def initialize
-    @balance = 0
+  def initialize(balance = DEFAULT_BALANCE)
+    @balance = balance
     @in_use = false
   end
 

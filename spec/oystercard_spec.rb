@@ -4,7 +4,7 @@ describe Oystercard do
 
 
   it "has a balance" do
-  expect(subject.balance).to eq(0)
+  expect(subject.balance).to eq(Oystercard::DEFAULT_BALANCE)
   end
 
   it "tops up balance with" do
@@ -15,15 +15,6 @@ describe Oystercard do
     limit = Oystercard::TOP_UP_LIMIT
     expect { subject.top_up(limit + 1) } .to raise_error "Error, card has limit of #{limit}"
   end
-
-  # describe '#deduct' do
-  #   [3,5,7].each do |num|
-  #     it "should reduced the balane by the given argument" do
-  #       subject.deduct(num)
-  #       expect(subject.balance).to eq(-num)
-  #     end
-  #   end
-  # end
 
   describe '#in_journey?' do
     it "should return false" do
