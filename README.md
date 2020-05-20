@@ -57,6 +57,8 @@ In order to be charged the correct amount
 As a customer
 I need to have the correct fare calculated
 
+Oystercard
+
 \#touch_in
 \@in_system = true
 
@@ -66,10 +68,17 @@ I need to have the correct fare calculated
 \#in journey
 \@in_use
 
-\#touch_in
+\#touch_in(entry_station)
+\@entry_station << entry_station
 balance check
 \@in_system
 
 \#touch_out
 balance - Minimum value
-\@in system 
+\@entry_station = nil
+\@in system
+
+Station
+
+\#initialize(name, zone)
+\@station_info = {:name => name, :zone => zone}
