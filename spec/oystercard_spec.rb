@@ -12,6 +12,13 @@ describe Oystercard do
 
   let(:test_instance_card) { Oystercard.new(10, journey) }
 
+  before do
+
+  allow(journey).to receive(:new) { journey }
+  allow(journey).to receive(:finish_journey)
+
+end
+
   it 'starts with an empty list of journeys' do
     expect(new_card.journeys).to eq []
   end
@@ -56,8 +63,9 @@ describe Oystercard do
     end
 
     it 'should store a journey instance when touch_out' do
-      high_balance_card.touch_out(exit_station)
-      expect(high_balance_card.journeys).to include(journey)
+      test_instance_card.touch_in(entry_station)
+      test_instance_card.touch_out(exit_station)
+      expect(test_instance_card.journeys).to include(journey)
     end
   end
 end
