@@ -20,15 +20,26 @@ class Oystercard
 
   def touch_in(entry_station)
     raise 'No money' if insufficient_funds?
-
-    @entry_station = entry_station
+    
+    start_journey(entry_station)
   end
 
   def touch_out(exit_station)
     deduct(MINIMUM_FARE)
-    @journeys << { entry_station: entry_station, exit_station: exit_station }
-    @entry_station = nil
+    finish_journey(exit_station)
+    
   end
+
+  
+
+    def start_journey(entry_station)
+    @entry_station = entry_station
+    end
+
+    def finish_journey(exit_station)
+    journeys << { entry_station: entry_station, exit_station: exit_station }
+     @entry_station = nil
+    end
 
   def in_journey?
     !!@entry_station
@@ -48,3 +59,4 @@ class Oystercard
     value + balance > TOP_UP_LIMIT
   end
 end
+
