@@ -18,11 +18,9 @@ class Journey
     !!exit_station
   end
 
-
   def calculate_fare
-  return PENALTY_FARE unless complete?
-  MINIMUM_FARE
+    return PENALTY_FARE unless complete?
+
+    MINIMUM_FARE
   end
-
-
 end

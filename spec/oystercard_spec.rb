@@ -38,14 +38,13 @@ describe Oystercard do
 
   it 'deducts from balance when you forget to touch out' do
     new_card.touch_in(entry_station)
-    expect{ new_card.touch_in(entry_station) }.to change { new_card.balance }.by -Oystercard::PENALTY_FARE
+    expect { new_card.touch_in(entry_station) }.to change { new_card.balance }.by -Oystercard::PENALTY_FARE
   end
 
   it 'deducts from balance when you forget to touch in' do
     allow(journey).to receive(:nil?) { true }
     new_card.touch_in(entry_station)
     new_card.touch_out(exit_station)
-    expect{ new_card.touch_out(exit_station) }.to change { new_card.balance }.by -Oystercard::PENALTY_FARE
+    expect { new_card.touch_out(exit_station) }.to change { new_card.balance }.by -Oystercard::PENALTY_FARE
   end
-
 end
