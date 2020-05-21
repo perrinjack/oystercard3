@@ -47,10 +47,9 @@ describe Oystercard do
       it 'should change #in_journey to true' do
         expect(subject).to be_in_journey
       end
-      it 'should store an entry station' do
-        expect(subject.entry_station).to eq(entry_station)
-      end
+
     end
+      
 
     describe '#touch_out' do
       it 'should change #in_journey to false' do
@@ -67,7 +66,7 @@ describe Oystercard do
       end
       it 'should store entry and exit stations in a hash when touch_out' do
         subject.touch_out(exit_station)
-        expect(subject.journeys).to eq([{ entry_station: entry_station, exit_station: exit_station }])
+        expect(subject.journeys).to include({entry_station: entry_station, exit_station: exit_station})
       end
     end
   end

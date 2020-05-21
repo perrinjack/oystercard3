@@ -1,11 +1,11 @@
 # frozen_string_literal: true
-
+require_relative 'journey.rb'
 class Oystercard
   TOP_UP_LIMIT = 100
   MINIMUM_FARE = 4
   DEFAULT_BALANCE = 3
 
-  attr_reader :balance, :entry_station, :journeys
+  attr_reader :balance, :journey
 
   def initialize(balance = DEFAULT_BALANCE)
     @balance = balance
@@ -20,29 +20,19 @@ class Oystercard
 
   def touch_in(entry_station)
     raise 'No money' if insufficient_funds?
-    
-    start_journey(entry_station)
+    @journey = Journey.new
+    @journey.start_journey(entry_station)
   end
 
   def touch_out(exit_station)
     deduct(MINIMUM_FARE)
-    finish_journey(exit_station)
-    
+    @journey.finish_journey(exit_station)
+    @journeys << @journey.current_journey
   end
 
-  
-
-    def start_journey(entry_station)
-    @entry_station = entry_station
-    end
-
-    def finish_journey(exit_station)
-    journeys << { entry_station: entry_station, exit_station: exit_station }
-     @entry_station = nil
-    end
-
   def in_journey?
-    !!@entry_station
+    return false if @journey.nil?
+    @journey.in_journey?
   end
 
   private
@@ -59,4 +49,5 @@ class Oystercard
     value + balance > TOP_UP_LIMIT
   end
 end
+
 
