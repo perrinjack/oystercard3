@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'journey.rb'
 class Oystercard
   TOP_UP_LIMIT = 100
@@ -21,6 +22,7 @@ class Oystercard
 
   def touch_in(entry_station)
     raise 'No money' if insufficient_funds?
+
     @journey = @journey_instance.new(entry_station)
   end
 
@@ -32,6 +34,7 @@ class Oystercard
 
   def in_journey?
     return false if @journey.nil?
+
     @journey.in_journey?
   end
 
