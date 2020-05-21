@@ -3,8 +3,8 @@
 require_relative 'journey.rb'
 class Oystercard
   TOP_UP_LIMIT = 100
-  MINIMUM_FARE = 4
-  DEFAULT_BALANCE = 3
+  MINIMUM_BALANCE = 1
+  DEFAULT_BALANCE = 0
 
   attr_reader :balance, :journeys
 
@@ -22,20 +22,22 @@ class Oystercard
 
   def touch_in(entry_station)
     raise 'No money' if insufficient_funds?
+    @journey.calculate_fare if !@journey.nil?
 
+    
     @journey = @journey_instance.new(entry_station)
   end
 
   def touch_out(exit_station)
-    deduct(MINIMUM_FARE)
-    @journey.finish_journey(exit_station)
-    @journeys << @journey
+    deduct(@journey.calculate_fare)
+    @journeys <<  @journey.finish_journey(exit_station)
+    @journey = nil
   end
 
   def in_journey?
     return false if @journey.nil?
 
-    @journey.in_journey?
+    !@journey.complete?
   end
 
   private
@@ -45,7 +47,7 @@ class Oystercard
   end
 
   def insufficient_funds?
-    balance < MINIMUM_FARE
+    balance < MINIMUM_BALANCE
   end
 
   def over_limit?(value)

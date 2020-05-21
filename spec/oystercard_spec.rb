@@ -10,15 +10,6 @@ describe Oystercard do
   let(:new_card) { Oystercard.new }
   let(:high_balance_card) { Oystercard.new(30) }
 
-  let(:test_instance_card) { Oystercard.new(10, journey) }
-
-  before do
-
-  allow(journey).to receive(:new) { journey }
-  allow(journey).to receive(:finish_journey)
-
-end
-
   it 'starts with an empty list of journeys' do
     expect(new_card.journeys).to eq []
   end
@@ -58,14 +49,6 @@ end
       expect(high_balance_card).not_to be_in_journey
     end
 
-    it 'should deduct the minimum fare from the card' do
-      expect { high_balance_card.touch_out(exit_station) }.to change { high_balance_card.balance }.by(-Oystercard::MINIMUM_FARE)
-    end
-
-    it 'should store a journey instance when touch_out' do
-      test_instance_card.touch_in(entry_station)
-      test_instance_card.touch_out(exit_station)
-      expect(test_instance_card.journeys).to include(journey)
-    end
   end
+
 end
