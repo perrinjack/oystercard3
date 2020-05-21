@@ -11,15 +11,15 @@ class Journey
 
   def finish_journey(exit_station)
     @exit_station = exit_station
-    self
+    self  #this returns the object and its attributes (@entry_station & @exit_station) to oystercard class. 
   end
 
   def complete?
-    !!exit_station
+    !!exit_station  #journey complete if there is an exit station. 
   end
 
   def calculate_fare
-    return PENALTY_FARE unless complete?
+    return PENALTY_FARE unless complete?   #gives penalty fare if journey isnt complete. 
 
     MINIMUM_FARE
   end

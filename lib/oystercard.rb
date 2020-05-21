@@ -11,7 +11,7 @@ class Oystercard
 
   def initialize(balance = DEFAULT_BALANCE, journey_instance = Journey)
     @balance = balance
-    @journeys = []
+    @journeys = [] #list of journeys 
     @journey_instance = journey_instance
   end
 
@@ -24,20 +24,20 @@ class Oystercard
   def touch_in(entry_station)
     raise 'No money' if insufficient_funds?
 
-    deduct(journey.calculate_fare) unless journey.nil?
-    @journey = journey_instance.new(entry_station)
+    deduct(journey.calculate_fare) unless journey.nil? #deducts penalty fare if person touches in twice without out without touching out
+    @journey = journey_instance.new(entry_station)  #create a new journey instance when touched in. 
   end
 
   def touch_out(exit_station)
-    journey.nil? ? deduct(PENALTY_FARE) : finish_journey_process(exit_station)
-  end
+    journey.nil? ? deduct(PENALTY_FARE) : finish_journey_process(exit_station) #deducts penalty fare if didnt touch in and @journey object not formed. Otherwise finishes journey correctly.
+  end 
 
   private
 
   def finish_journey_process(exit_station)
-    @journeys << journey.finish_journey(exit_station)
-    deduct(journey.calculate_fare)
-    @journey = nil
+    @journeys << journey.finish_journey(exit_station)  #journey object and its attributes  is returned and placed in journeys array. 
+    deduct(journey.calculate_fare) #calculates and deducts fare. 
+    #@journey = nil
   end
 
   def deduct(fare)
