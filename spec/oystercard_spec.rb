@@ -31,9 +31,16 @@ describe Oystercard do
     expect { zero_card.touch_in(entry_station) }.to raise_error('No money')
   end
 
+  #it 'new test' do
+   # allow(journey).to receive(:new) { journey }
+    #allow(journey).to receive(:nil?) { false}
+    #new_card.touch_in(entry_station)
+    #expect { new_card.touch_in(entry_station) }.to change { new_card.balance }.by -Oystercard::PENALTY_FARE
+  #end
+
   before do
     allow(journey).to receive(:new) { journey }
-    allow(journey).to receive(:calculate_fare) { Oystercard::PENALTY_FARE }
+    allow(journey).to receive(:calculate_fare) { Oystercard::PENALTY_FARE}
   end
 
   it 'deducts from balance when you forget to touch out' do
@@ -42,7 +49,7 @@ describe Oystercard do
   end
 
   it 'deducts from balance when you forget to touch in' do
-    allow(journey).to receive(:nil?) { true }
+    allow(journey).to receive(:nil?) { true}
     new_card.touch_in(entry_station)
     new_card.touch_out(exit_station)
     expect { new_card.touch_out(exit_station) }.to change { new_card.balance }.by -Oystercard::PENALTY_FARE

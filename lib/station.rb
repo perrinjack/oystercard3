@@ -5,5 +5,7 @@ class Station
 
   def initialize(name, zone)
     @station_info = { name: name, zone: zone }
+    # @name =name
+    # @zone = zone
   end
 end
